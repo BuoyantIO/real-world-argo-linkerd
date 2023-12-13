@@ -32,6 +32,7 @@ named `argo-cluster` and any existing Docker container named `vault`.
      issue certificates.
 
 3. Commit the changes made by `tools/init-cert-manager.sh` in the
-   `apps/cert-manager` directory, and push the commit. This will permit Argo CD to see the correct information for cert-manager.
+   `apps/cert-manager` directory, and push the commit. This will permit Argo
+   CD to see the correct information for cert-manager.
 
 4. Use `argocd` to tell Argo CD to do its thing?
