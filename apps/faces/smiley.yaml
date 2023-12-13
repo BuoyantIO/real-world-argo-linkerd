@@ -1,0 +1,73 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smiley
+  namespace: faces
+spec:
+  type: ClusterIP
+  selector:
+    service: smiley
+  ports:
+  - port: 80
+    targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smiley
+  namespace: faces
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: smiley
+  template:
+    metadata:
+      labels:
+        service: smiley
+    spec:
+      containers:
+      - name: smiley
+        image: dwflynn/faces-service:0.8.0
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8000
+        env:
+        - name: FACES_SERVICE
+          value: "smiley"
+        # - name: ERROR_FRACTION
+        #   value: "20"
+        - name: DELAY_BUCKETS
+          value: "0,5,10,15,20,50,200,500,750"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 250m
+            memory: 128Mi
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: smiley-route
+  namespace: faces
+spec:
+  parentRefs:
+    - name: smiley
+      kind: Service
+      group: ""
+      port: 80
+  rules:
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: smiley
+      port: 80
+      weight: 100
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

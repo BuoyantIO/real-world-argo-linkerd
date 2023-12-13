@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: faces-app
+  namespace: argocd
+spec:
+  source:
+    path: apps/faces
+    repoURL: 'https://github.com/reginapizza/argocd-linkerd-demo-2.git'
+    targetRevision: master
+  destination:
+    namespace: faces
+    server: 'https://kubernetes.default.svc'
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true

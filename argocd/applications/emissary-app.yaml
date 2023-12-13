@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: emissary
+  namespace: argocd
+spec:
+  destination:
+    namespace: emissary
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - repoURL: https://github.com/reginapizza/argocd-linkerd-demo-2.git
+      path: apps/emissary
+      targetRevision: master
+    - repoURL: https://app.getambassador.io
+      chart: emissary-ingress
+      targetRevision: 8.8.2
