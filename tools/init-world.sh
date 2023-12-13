@@ -66,20 +66,3 @@ vault write pki/config/urls \
 # secrets engine...
 echo 'path "pki*" {  capabilities = ["create", "read", "update", "delete", "list", "sudo"]}' \
    | vault policy write pki_policy -
-
-# Tell Vault to actually create our Linkerd trust anchor. This cert only
-# exists within Vault, we're explicitly giving it the common name of the
-# Linkerd trust anchor ("root.linkerd.cluster.local"), it uses our maximum TTL
-# of 2160 hours, and we want Vault to generate it using elliptic-curve crypto.
-#
-# The "-field=certificate" argument tells Vault to output only the
-# certificate, so we can inspect it. This is safe because there's no secret
-# information in the certificate.
-
-echo "==== Creating trust anchor ===="
-CERT=$(vault write -field=certificate pki/root/generate/internal \
-      common_name=root.linkerd.cluster.local \
-      ttl=2160h key_type=ec)
-
-echo "Trust anchor certificate:"
-echo "$CERT" | inspect_cert
