@@ -31,4 +31,7 @@ named `argo-cluster` and any existing Docker container named `vault`.
      ClusterIssuer telling cert-manager how to use the running Vault server to
      issue certificates.
 
-3. Use `argocd` to tell Argo CD to do its thing?
+3. Commit the changes made by `tools/init-cert-manager.sh` in the
+   `apps/cert-manager` directory, and push the commit. This will permit Argo CD to see the correct information for cert-manager.
+
+4. Use `argocd` to tell Argo CD to do its thing?
