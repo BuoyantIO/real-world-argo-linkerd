@@ -11,9 +11,12 @@ metadata:
   namespace: argocd
 spec:
   source:
-    chart: faces
-    repoURL: 'oci://registry-1.docker.io/dwflynn/faces-chart'
-    targetRevision: 0.8.0
+    - repoURL: https://github.com/reginapizza/argocd-linkerd-demo-2.git
+      path: apps/faces
+      targetRevision: master
+    - repoURL: 'oci://registry-1.docker.io/dwflynn/faces-chart'
+      chart: faces-chart
+      targetRevision: 0.8.0
   destination:
     namespace: faces
     server: 'https://kubernetes.default.svc'

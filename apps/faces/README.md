@@ -1,1 +1,0 @@
-TODO: delete the faces folder if we're using helm to pull it all

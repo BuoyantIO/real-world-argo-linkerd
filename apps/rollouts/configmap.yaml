@@ -4,6 +4,8 @@ kind: ConfigMap
 metadata:
   name: argo-rollouts-config
   namespace: argo-rollouts # must be in this namespace
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
 data:
   trafficRouterPlugins: |-
     - name: "argoproj-labs/gatewayAPI"

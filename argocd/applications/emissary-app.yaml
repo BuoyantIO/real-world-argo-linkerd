@@ -18,9 +18,9 @@ spec:
     - repoURL: https://github.com/reginapizza/argocd-linkerd-demo-2.git
       path: apps/emissary
       targetRevision: master
-    - repoURL: https://app.getambassador.io
-      chart: emissary-ingress
-      targetRevision: 8.8.2
+    - repoURL: oci://registry-1.docker.io/dwflynn/emissary-ingress-crds-chart
+      chart: emissary-ingress-crds-chart
+      targetRevision: 3.9.1
   syncPolicy:
     automated:
       prune: true

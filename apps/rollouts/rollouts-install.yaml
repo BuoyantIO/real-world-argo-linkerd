@@ -1,18 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
-    kind: Application
-    metadata:
-      name: argo-rollouts
-      namespace: argocd
-    spec:
-      project: default
-      source:
-        path: charts/argo-rollouts
-        repoURL: https://github.com/argoproj/argo-helm
-        targetRevision: HEAD
-        helm:
-          releaseName: argo-rollouts
-          valueFiles:
-            - values.yaml
-      destination:
-        server: "https://kubernetes.default.svc"
-        namespace: argo-rollouts
+kind: Application
+metadata:
+  name: argo-rollouts
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    path: charts/argo-rollouts
+    repoURL: https://github.com/argoproj/argo-helm
+    targetRevision: HEAD
+    helm:
+      releaseName: argo-rollouts
+      valueFiles:
+        - values.yaml
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argo-rollouts
