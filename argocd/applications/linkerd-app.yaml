@@ -1,9 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+    # Without the resources-finalizer.argocd.argoproj.io finalizer, deleting an application will not delete the resources it manages. 
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   name: linkerd
+  # the namespace here must match the namespace of our Argo CD instance
   namespace: argocd
 spec:
   source:

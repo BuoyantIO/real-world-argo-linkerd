@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkerd-control-plane
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  destination:
+    namespace: linkerd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: linkerd-control-plane
+    repoURL: https://helm.linkerd.io/stable
+    targetRevision: 1.16.2
+    helm:
+    # not exactly sure how to pass these values :/ maybe with multiple sources feature? 
+      parameters:
+      - name: "identityTrustAnchorsPEM"
+        value: $(cat keys/ca.crt)
+      - name: "identity.issuer.tls.crtPEM"
+        value: $(cat keys/issuer.crt)
+      - name: "identity.issuer.tls.keyPEM"
+        value: $(cat keys/issuer.key)
+      forceString: true # ensures that value is treated as a string
+
+

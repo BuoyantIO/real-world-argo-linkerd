@@ -1,7 +1,8 @@
 apiVersion: v1
-    kind: Namespace
-    metadata:
-      name: emissary
-      annotations:
-        linkerd.io/inject: enabled
-    spec: {}
+kind: Namespace
+metadata:
+  name: emissary
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    linkerd.io/inject: enabled
+spec: {}

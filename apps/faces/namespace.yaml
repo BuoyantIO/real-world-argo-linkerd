@@ -1,7 +1,7 @@
 apiVersion: v1
-    kind: Namespace
-    metadata:
-      name: faces
-      annotations:
-        linkerd.io/inject: enabled
-    spec: {}
+kind: Namespace
+metadata:
+  name: faces
+  annotations:
+    linkerd.io/inject: enabled
+spec: {}

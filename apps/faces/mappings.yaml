@@ -1,5 +1,4 @@
 # This is the Emissary configuration for the Faces application.
----
 apiVersion: getambassador.io/v3alpha1
 kind: Listener
 metadata:

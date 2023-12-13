@@ -4,7 +4,7 @@ metadata:
   name: linkerd-crds
   namespace: argocd
 spec:
-  project: demo
+  project: demo # why is this demo and not default? 
   source:
     chart: linkerd-crds
     repoURL: https://helm.linkerd.io/stable

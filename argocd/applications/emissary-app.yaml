@@ -1,7 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  # Without the resources-finalizer.argocd.argoproj.io finalizer, deleting an application will not delete the resources it manages. 
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   name: emissary
+  # the namespace here must match the namespace of our Argo CD instance
   namespace: argocd
 spec:
   destination:
@@ -15,3 +21,15 @@ spec:
     - repoURL: https://app.getambassador.io
       chart: emissary-ingress
       targetRevision: 8.8.2
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+    syncOptions:
+      - CreateNamespace=true
