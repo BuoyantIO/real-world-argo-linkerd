@@ -11,9 +11,9 @@ metadata:
   namespace: argocd
 spec:
   source:
-    chart: apps/faces
+    chart: faces
     repoURL: 'oci://registry-1.docker.io/dwflynn/faces-chart'
-    targetRevision: master
+    targetRevision: 0.8.0
   destination:
     namespace: faces
     server: 'https://kubernetes.default.svc'
