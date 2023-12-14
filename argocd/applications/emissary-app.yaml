@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  # Without the resources-finalizer.argocd.argoproj.io finalizer, deleting an application will not delete the resources it manages. 
+  # Without the resources-finalizer.argocd.argoproj.io finalizer, deleting an application will not delete the resources it manages.
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
   name: emissary
   # the namespace here must match the namespace of our Argo CD instance
   namespace: argocd
@@ -14,13 +14,10 @@ spec:
     namespace: emissary
     server: https://kubernetes.default.svc
   project: default
-  sources:
-    - repoURL: https://github.com/reginapizza/argocd-linkerd-demo-2.git
-      path: apps/emissary
-      targetRevision: master
-    - repoURL: oci://registry-1.docker.io/dwflynn/emissary-ingress-crds-chart
-      chart: emissary-ingress-crds-chart
-      targetRevision: 3.9.1
+  source:
+    path: apps/emissary
+    repoURL: 'https://github.com/kflynn/argocd-linkerd-demo-2.git'
+    targetRevision: master
   syncPolicy:
     automated:
       prune: true
@@ -31,5 +28,3 @@ spec:
         duration: 5s
         maxDuration: 3m0s
         factor: 2
-    syncOptions:
-      - CreateNamespace=true

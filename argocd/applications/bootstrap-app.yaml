@@ -5,13 +5,13 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
-  name: cert-manager-app
+    argocd.argoproj.io/sync-wave: "0"
+  name: bootstrap-app
   # the namespace here must match the namespace of our Argo CD instance
   namespace: argocd
 spec:
   source:
-    path: apps/cert-manager
+    path: apps/bootstrap
     repoURL: 'https://github.com/kflynn/argocd-linkerd-demo-2.git'
     targetRevision: master
   destination:

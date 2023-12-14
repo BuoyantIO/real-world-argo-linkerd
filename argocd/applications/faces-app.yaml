@@ -1,22 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-    # Without the resources-finalizer.argocd.argoproj.io finalizer, deleting an application will not delete the resources it manages. 
+  # Without the resources-finalizer.argocd.argoproj.io finalizer, deleting an application will not delete the resources it manages.
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "5"
   name: faces-app
   # the namespace here must match the namespace of our Argo CD instance
   namespace: argocd
 spec:
   source:
-    - repoURL: https://github.com/reginapizza/argocd-linkerd-demo-2.git
-      path: apps/faces
-      targetRevision: master
-    - repoURL: 'oci://registry-1.docker.io/dwflynn/faces-chart'
-      chart: faces-chart
-      targetRevision: 0.8.0
+    path: argocd
+    repoURL: 'https://github.com/kflynn/gitops-faces.git'
+    targetRevision: main
   destination:
     namespace: faces
     server: 'https://kubernetes.default.svc'
@@ -31,5 +28,3 @@ spec:
         duration: 5s
         maxDuration: 3m0s
         factor: 2
-    syncOptions:
-      - CreateNamespace=true

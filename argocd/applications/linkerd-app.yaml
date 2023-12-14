@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-    # Without the resources-finalizer.argocd.argoproj.io finalizer, deleting an application will not delete the resources it manages. 
+  # Without the resources-finalizer.argocd.argoproj.io finalizer, deleting an application will not delete the resources it manages.
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
@@ -12,7 +12,7 @@ metadata:
 spec:
   source:
     path: apps/linkerd
-    repoURL: 'https://github.com/reginapizza/argocd-linkerd-demo-2.git'
+    repoURL: 'https://github.com/kflynn/argocd-linkerd-demo-2.git'
     targetRevision: master
   destination:
     namespace: linkerd
@@ -28,5 +28,3 @@ spec:
         duration: 5s
         maxDuration: 3m0s
         factor: 2
-    syncOptions:
-      - CreateNamespace=true

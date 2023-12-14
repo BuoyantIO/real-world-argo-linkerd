@@ -4,9 +4,9 @@ metadata:
   name: linkerd-control-plane
   namespace: argocd
   annotations:
-  argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
-  project: demo
+  project: default
   source:
     chart: linkerd-control-plane
     repoURL: https://helm.linkerd.io/stable
@@ -20,6 +20,8 @@ spec:
   destination:
     namespace: linkerd
     server: https://kubernetes.default.svc
+  syncPolicy:
+    automated: {}
   ignoreDifferences:
   - group: ""
     kind: Secret
