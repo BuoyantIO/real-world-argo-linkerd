@@ -10,12 +10,10 @@ set -e
 # 3. You need to clone the two repos side-by-side in the directory tree, so
 #    that "real-world-argo-linkerd" and "gitops-faces" are siblings.
 #
-# 4. You need your clone of "real-world-argo-linkerd" to be in its "master"
-#    branch.
+# 4. You need your clones of both "real-world-argo-linkerd" and "gitops-faces"
+#    to be in their "main" branch.
 #
-# 5. You need your clone of "gitops-faces" to be in its "main" branch.
-#
-# 6. You need to be running this script from your "argocd-linkerd-demo-2"
+# 5. You need to be running this script from your "real-world-argo-linkerd"
 #    clone.
 #
 # This script verifies that all these things are done.
@@ -29,19 +27,19 @@ if [ -z "$GITHUB_USER" ]; then \
     exit 1 ;\
 fi
 
-# OK. Next up: we should be in the argocd-linkerd-demo-2 repo, and our "origin"
+# OK. Next up: we should be in the real-world-argo-linkerd repo, and our "origin"
 # remote should point to a fork of the repo under the $GITHUB_USER account.
 
 origin=$(git remote get-url --all origin)
 
-if [ $(echo "$origin" | grep -c "$GITHUB_USER/argocd-linkerd-demo-2\.git$") -ne 1 ]; then \
-    echo "Not in the $GITHUB_USER fork of argocd-linkerd-demo-2" >&2 ;\
+if [ $(echo "$origin" | grep -c "$GITHUB_USER/real-world-argo-linkerd\.git$") -ne 1 ]; then \
+    echo "Not in the $GITHUB_USER fork of real-world-argo-linkerd" >&2 ;\
     exit 1 ;\
 fi
 
-# Next up: we should be in the "master" branch.
-if [ $(git branch --show-current) != "master" ]; then \
-    echo "Not in the master branch of argocd-linkerd-demo-2" >&2 ;\
+# Next up: we should be in the "main" branch.
+if [ $(git branch --show-current) != "main" ]; then \
+    echo "Not in the main branch of real-world-argo-linkerd" >&2 ;\
     exit 1 ;\
 fi
 

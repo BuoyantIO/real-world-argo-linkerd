@@ -6,8 +6,8 @@ metadata:
 spec:
   source:
     path: argocd/applications
-    repoURL: 'https://github.com/kflynn/argocd-linkerd-demo-2.git'
-    targetRevision: master
+    repoURL: 'https://github.com/kflynn/real-world-argo-linkerd.git'
+    targetRevision: main
   destination:
     namespace: argocd
     server: 'https://kubernetes.default.svc'

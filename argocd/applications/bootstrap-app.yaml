@@ -12,8 +12,8 @@ metadata:
 spec:
   source:
     path: apps/bootstrap
-    repoURL: 'https://github.com/kflynn/argocd-linkerd-demo-2.git'
-    targetRevision: master
+    repoURL: 'https://github.com/kflynn/real-world-argo-linkerd.git'
+    targetRevision: main
   destination:
     server: 'https://kubernetes.default.svc'
   project: default

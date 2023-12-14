@@ -148,7 +148,7 @@ our own forks of both our repos. First we'll figure out the URL for our fork
 of `real-world-argo-linkerd`:
 
 ```bash
-TARGETREPO="https://github.com/${GITHUB_USER}/argocd-linkerd-demo-2.git"
+TARGETREPO="https://github.com/${GITHUB_USER}/real-world-argo-linkerd.git"
 ```
 
 Given that, we can use `yq` to update the `repoURL` field in the `spec.source`
@@ -230,7 +230,7 @@ kubectl apply -n argocd \
         -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-We also want to explicitly change the delay between sync waves to 30 seconds.
+We also want to explicitly change the delay between sync waves to 10 seconds.
 (The default is 2, but this is a little fast for some of the things we're
 running.) We'll do this now because it requires setting an environment
 variable on the `argocd-application-controller` StatefulSet, which will
@@ -239,7 +239,7 @@ restart the StatefulSet -- may as well get that out of the way.
 ```bash
 kubectl set env statefulset \
         -n argocd argocd-application-controller \
-        ARGOCD_SYNC_WAVE_DELAY=30
+        ARGOCD_SYNC_WAVE_DELAY=10
 ```
 
 Let's wait for Argo to be running...
@@ -283,6 +283,10 @@ Now we can delete the `argocd-initial-admin-secret`.
 ```bash
 kubectl delete secret argocd-initial-admin-secret -n argocd
 ```
+
+At this point, we can go log into the Argo CD UI!
+
+<!-- @browser_then_terminal -->
 
 Next, we need to tell Argo CD about the OCI Helm repo we'll be using for a
 couple of things. This is important because we'll be using the `oci` protocol,
