@@ -148,7 +148,7 @@ our own forks of both our repos. First we'll figure out the URL for our fork
 of `real-world-argo-linkerd`:
 
 ```bash
-TARGETREPO="https://github.com/${GITHUB_USER}/argocd-linkerd-demo-2.git"
+TARGETREPO="https://github.com/${GITHUB_USER}/real-world-argo-linkerd.git"
 ```
 
 Given that, we can use `yq` to update the `repoURL` field in the `spec.source`
