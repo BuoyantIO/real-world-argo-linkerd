@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: faces-demo
+  name: faces-app-of-apps
   namespace: argocd
 spec:
   source:
     path: argocd/applications
-    repoURL: 'https://github.com/reginapizza/argocd-linkerd-demo-2'
+    repoURL: 'https://github.com/kflynn/argocd-linkerd-demo-2.git'
     targetRevision: master
   destination:
     namespace: argocd

@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: emissary-ingress
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    chart: emissary-ingress
+    repoURL: https://app.getambassador.io
+    targetRevision: 8.9.1
+    helm:
+      parameters:
+      - name: replicaCount
+        value: "1"
+      - name: waitForApiext.enabled
+        value: "false"
+      - name: waitForApiext.createRoles
+        value: "false"
+  destination:
+    namespace: emissary
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated: {}
