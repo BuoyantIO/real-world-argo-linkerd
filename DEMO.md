@@ -2,6 +2,7 @@
 
 <!-- @import tools/check-requirements.sh -->
 <!-- @import tools/check-github.sh -->
+<!-- @start_livecast -->
 <!-- @SHOW -->
 
 We have Vault and our k3d cluster already running, so let's start by setting
@@ -180,10 +181,23 @@ kubectl apply -n argocd \
         -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
+We also want to explicitly change the delay between sync waves to 30 seconds
+-- the default is 2, but this is a little fast for some of the things we're
+running. We do this with an environment variable on the
+`argocd-application-controller` StatefulSet, and we're going to do this now
+since that will restart the StatefulSet.
+
+```bash
+kubectl set env statefulset \
+        -n argocd argocd-application-controller \
+        ARGOCD_SYNC_WAVE_DELAY=30
+```
+
 Let's wait for Argo to be running...
 
 ```bash
 kubectl rollout status -n argocd deploy
+kubectl rollout status -n argocd statefulset
 ```
 
 Then we can use port-forwarding to make the Argo CD UI available:
@@ -220,16 +234,24 @@ Now we can delete the `argocd-initial-admin-secret`.
 kubectl delete secret argocd-initial-admin-secret -n argocd
 ```
 
-Almost done. First, we need to tell Argo CD about the OCI Helm repo we'll be
-using for a couple of things. This is important because we'll be using the
-`oci` protocol, which is not supported unless we explicitly enable it.
+Next, we need to tell Argo CD about the OCI Helm repo we'll be using for a
+couple of things. This is important because we'll be using the `oci` protocol,
+which is not supported unless we explicitly enable it.
 
 ```bash
 bat dwflynn-repo.yaml
 kubectl apply -f dwflynn-repo.yaml
 ```
 
-Finally, we can apply our app-of-apps and watch everything happen.
+Finally, we're going to set up a custom health check for Argo CD, so that it
+can do a better job of keeping track of when Applications are ready.
+
+```bash
+bat argocd/configmap/argocd-cm.yaml
+kubectl apply -f argocd/configmap/argocd-cm.yaml
+```
+
+And now, we can apply our app-of-apps and watch everything happen!
 
 ```bash
 bat faces-app-of-apps.yaml
