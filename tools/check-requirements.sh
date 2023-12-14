@@ -31,5 +31,6 @@ check kubectl-argo-rollouts "https://argo-rollouts.readthedocs.io/en/stable/inst
 check kubeseal 'https://github.com/bitnami-labs/sealed-secrets?tab=readme-ov-file#kubeseal'
 check step "https://smallstep.com/docs/step-cli/installation"
 check bat "https://github.com/sharkdp/bat"
-
+check helm "https://helm.sh/docs/intro/quickstart/"
+check yq "https://github.com/mikefarah/yq?tab=readme-ov-file#install"
 check_argocd_version
